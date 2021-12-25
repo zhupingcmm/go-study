@@ -7,7 +7,7 @@ import (
 
 func main() {
 	messages := make(chan int, 10)
-	// done := make(chan bool)
+	done := make(chan bool)
 
 	defer close(messages)
 
@@ -15,9 +15,9 @@ func main() {
 		ticker := time.NewTicker(1 * time.Second)
 		for _ = range ticker.C {
 			select {
-			// case <-done:
-			// 	fmt.Println("child process interrupt...")
-			// 	return
+			case <-done:
+				fmt.Println("child process interrupt...")
+				return
 			default:
 				fmt.Printf("send message: %d\n", <-messages)
 			}
